@@ -1,8 +1,8 @@
 
-Summary: nonfree plugins for libtunepimp 
-Name:	 libtunepimp-extras-nonfree
+Summary: Additional plugins for libtunepimp 
+Name:    libtunepimp-extras-freeworld
 Version: 0.5.3
-Release: 4%{?dist}
+Release: 5%{?dist}
 
 License: LGPLv2+
 Group: 	 System Environment/Libraries
@@ -10,6 +10,10 @@ URL:     http://www.musicbrainz.org/products/tunepimp/
 # see http://musicbrainz.org/doc/libtunepimpDownload
 Source0: http://ftp.musicbrainz.org/pub/musicbrainz/libtunepimp-%{version}.tar.gz
 BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+# obsolete old livna package
+Provides:       libtunepimp-extras-nonfree = %{version}-%{release}
+Obsoletes:      libtunepimp-extras-nonfree < 0.5.3-5
 
 Patch1: libtunepimp-0.5.3-gcc43.patch
 
@@ -88,6 +92,10 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Aug 10 2008 Thorsten Leemhuis <fedora at leemhuis.info> 0.5.3-5
+- rename to libtunepimp-extras-freeworld
+- add provides and obsoletes for package from livna
+
 * Thu Feb 21 2008 Rex Dieter <rdieter@fedoraproject.org> 0.5.3-4
 - gcc43 patch
 
