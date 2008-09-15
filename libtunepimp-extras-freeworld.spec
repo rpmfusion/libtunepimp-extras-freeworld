@@ -29,7 +29,7 @@ BuildRequires: expat-devel
 
 BuildRequires: libmad-devel
 
-%if "%{?_with_mp4:1}" == "1"
+%if 0%{?_with_mp4:1}
 BuildRequires: libmp4v2-devel
 Provides:  libtunepimp-mp4 = %{version}-%{release}
 %endif
