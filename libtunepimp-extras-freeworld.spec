@@ -16,9 +16,11 @@ Provides:       libtunepimp-extras-nonfree = %{version}-%{release}
 Obsoletes:      libtunepimp-extras-nonfree < 0.5.3-5
 
 Patch1: libtunepimp-0.5.3-gcc43.patch
+Patch2: libtunepimp-0.5.3-libmad.patch
 
 %define pkglibdir %{_libdir}/tunepimp
 
+BuildRequires: automake
 BuildRequires: libmusicbrainz-devel >= 2.1.0
 BuildRequires: readline-devel ncurses-devel
 BuildRequires: zlib-devel
@@ -49,6 +51,10 @@ Requires: libtunepimp5
 %setup -q -n libtunepimp-%{version}
 
 %patch1 -p1 -b .gcc43
+%patch2 -p1 -b .libmad
+
+aclocal
+automake
 
 
 %build

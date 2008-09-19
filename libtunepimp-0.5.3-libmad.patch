@@ -1,0 +1,58 @@
+diff -up libtunepimp-0.5.3/configure.in.libmad libtunepimp-0.5.3/configure.in
+--- libtunepimp-0.5.3/configure.in.libmad	2006-11-28 14:28:38.000000000 -0600
++++ libtunepimp-0.5.3/configure.in	2008-09-19 08:58:53.000000000 -0500
+@@ -236,7 +236,7 @@ AC_CHECK_LIB(mp4v2, MP4Read, [
+ 
+ if test "x$use_lgpl" = "xno"; then
+     dnl Check for MAD decoder lib for mp3 support
+-    AC_CHECK_LIB(mad,mad_version,
++    PKG_CHECK_MODULES(MAD, mad, 
+                  AC_DEFINE(HAVE_LIBMAD,1,[MP3 Decode Support])
+                  TP_PLUGINS="$TP_PLUGINS mp3"
+ 		 with_mp3=yes,
+@@ -245,8 +245,8 @@ if test "x$use_lgpl" = "xno"; then
+                  echo "*  the decoder from http://www.mars.org/home/rob/proj/mpeg"
+                  echo "*  to include MP3 TRM generation capabilities."
+                  echo "*"
+-		 with_mp3=no
+-                 ,-lm)
++		 , with_mp3=no
++                 )
+ else
+     with_mp3=no
+ fi
+diff -up libtunepimp-0.5.3/plugins/mp3/Makefile.am.libmad libtunepimp-0.5.3/plugins/mp3/Makefile.am
+--- libtunepimp-0.5.3/plugins/mp3/Makefile.am.libmad	2006-11-18 04:51:07.000000000 -0600
++++ libtunepimp-0.5.3/plugins/mp3/Makefile.am	2008-09-19 09:03:13.000000000 -0500
+@@ -24,12 +24,12 @@
+ #
+ SUBDIRS = id3tag id3tag-2.3
+ 
+-INCLUDES = -I$(top_srcdir)/include/tunepimp-0.5 $(INCLTDL)
++INCLUDES = -I$(top_srcdir)/include/tunepimp-0.5 $(INCLTDL) $(MAD_CFLAGS)
+ 
+ lib_LTLIBRARIES = mp3.la
+ mp3_la_SOURCES = mp3.cpp mp3decode.cpp mp3decode.h id3_meta.cpp id3_2_3_meta.cpp mp3info.cpp
+ mp3_la_LDFLAGS = -module -avoid-version
+-mp3_la_LIBADD = ../../lib/utf8/libutf8.la id3tag/libid3tag.la id3tag-2.3/libid3tag23.la ../../lib/libpluginsupport.la -lmad -lmusicbrainz
++mp3_la_LIBADD = ../../lib/utf8/libutf8.la id3tag/libid3tag.la id3tag-2.3/libid3tag23.la ../../lib/libpluginsupport.la $(MAD_LIBS) -lmusicbrainz
+ 
+ noinst_HEADERS = mp3decode.h id3_meta.h mp3info.h id3_2_3_meta.h mp3.h
+ 
+diff -up libtunepimp-0.5.3/plugins/mp3/Makefile.in.libmad libtunepimp-0.5.3/plugins/mp3/Makefile.in
+--- libtunepimp-0.5.3/plugins/mp3/Makefile.in.libmad	2008-09-19 08:59:22.000000000 -0500
++++ libtunepimp-0.5.3/plugins/mp3/Makefile.in	2008-09-19 09:03:38.000000000 -0500
+@@ -243,11 +243,11 @@ top_srcdir = @top_srcdir@
+ #
+ #
+ SUBDIRS = id3tag id3tag-2.3
+-INCLUDES = -I$(top_srcdir)/include/tunepimp-0.5 $(INCLTDL)
++INCLUDES = -I$(top_srcdir)/include/tunepimp-0.5 $(INCLTDL) $(MAD_CFLAGS)
+ lib_LTLIBRARIES = mp3.la
+ mp3_la_SOURCES = mp3.cpp mp3decode.cpp mp3decode.h id3_meta.cpp id3_2_3_meta.cpp mp3info.cpp
+ mp3_la_LDFLAGS = -module -avoid-version
+-mp3_la_LIBADD = ../../lib/utf8/libutf8.la id3tag/libid3tag.la id3tag-2.3/libid3tag23.la ../../lib/libpluginsupport.la -lmad -lmusicbrainz
++mp3_la_LIBADD = ../../lib/utf8/libutf8.la id3tag/libid3tag.la id3tag-2.3/libid3tag23.la ../../lib/libpluginsupport.la $(MAD_LIBS) -lmusicbrainz
+ noinst_HEADERS = mp3decode.h id3_meta.h mp3info.h id3_2_3_meta.h mp3.h
+ all: all-recursive
+ 
