@@ -2,7 +2,7 @@
 Summary: Additional plugins for libtunepimp 
 Name:    libtunepimp-extras-freeworld
 Version: 0.5.3
-Release: 5%{?dist}
+Release: 6%{?dist}
 
 License: LGPLv2+
 Group: 	 System Environment/Libraries
@@ -99,6 +99,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.5.3-6
+- rebuild for new F11 features
+
 * Sun Aug 10 2008 Thorsten Leemhuis <fedora at leemhuis.info> 0.5.3-5
 - rename to libtunepimp-extras-freeworld
 - add provides and obsoletes for package from livna
