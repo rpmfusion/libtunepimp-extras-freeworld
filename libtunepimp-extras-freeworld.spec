@@ -2,7 +2,7 @@
 Summary: Additional plugins for libtunepimp 
 Name:    libtunepimp-extras-freeworld
 Version: 0.5.3
-Release: 6%{?dist}
+Release: 7%{?dist}
 
 License: LGPLv2+
 Group: 	 System Environment/Libraries
@@ -16,11 +16,19 @@ Provides:       libtunepimp-extras-nonfree = %{version}-%{release}
 Obsoletes:      libtunepimp-extras-nonfree < 0.5.3-5
 
 Patch1: libtunepimp-0.5.3-gcc43.patch
-Patch2: libtunepimp-0.5.3-libmad.patch
+Patch2: libtunepimp-0.5.3-glibc210_strrchr.patch
+
+Patch10: libtunepimp-0.5.3-libmad.patch
 
 %define pkglibdir %{_libdir}/tunepimp
 
-BuildRequires: automake libtool
+%if 0%{?fedora} > 10
+# libtool2 (libltdl) building busted
+%else
+%define use_autofoo 1
+BuildRequires: automake libtool libtool-ltdl-devel
+%endif
+
 BuildRequires: libmusicbrainz-devel >= 2.1.0
 BuildRequires: readline-devel ncurses-devel
 BuildRequires: zlib-devel
@@ -51,11 +59,19 @@ Requires: libtunepimp5
 %setup -q -n libtunepimp-%{version}
 
 %patch1 -p1 -b .gcc43
-%patch2 -p1 -b .libmad
+%patch2 -p1 -b .glibc210_strrchr
 
-libtoolize --force
-aclocal
-automake
+%patch10 -p1 -b .libmad
+
+# nuke rpath -- Rex
+%if 0%{?use_autofoo}
+autoreconf -i -f
+%else
+# ugly non-autofoo-but-works-with-libtool2 solution
+%if "%{_libdir}" != "/usr/lib"
+sed -i -e 's|"/lib /usr/lib|"/%{_lib} %{_libdir}|' configure
+%endif
+%endif
 
 
 %build
@@ -99,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Fri Apr 03 2009 Rex Dieter <rdieter@fedoraproject.org> - 0.5.3-7
+- fix build (port fedora/rawhide build fixes)
+
 * Sun Mar 29 2009 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info> - 0.5.3-6
 - rebuild for new F11 features
 
