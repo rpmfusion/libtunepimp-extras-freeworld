@@ -2,7 +2,7 @@
 Summary: Additional plugins for libtunepimp 
 Name:    libtunepimp-extras-freeworld
 Version: 0.5.3
-Release: 10%{?dist}
+Release: 11%{?dist}
 
 License: LGPLv2+
 Group: 	 System Environment/Libraries
@@ -21,6 +21,8 @@ Patch0: libtunepimp-0.5.3-autotools.patch.gz
 
 Patch1: libtunepimp-0.5.3-gcc43.patch
 Patch2: libtunepimp-0.5.3-glibc210_strrchr.patch
+# build against curl 7.21
+Patch3: libtunepimp-0.5.3-curl.patch
 
 Patch10: libtunepimp-0.5.3-libmad.patch
 
@@ -64,6 +66,7 @@ Requires: libtunepimp5
 
 %patch1 -p1 -b .gcc43
 %patch2 -p1 -b .glibc210_strrchr
+%patch3 -p1 -b .curl
 
 # nuke rpath -- Rex
 %if 0%{?use_autofoo}
@@ -119,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Wed May 02 2012 Rex Dieter <rdieter@fedoraproject.org> 0.5.3-11
+- fix for newer curl
+
 * Fri Mar 02 2012 Nicolas Chauvet <kwizart@gmail.com> - 0.5.3-10
 - Rebuilt for c++ ABI breakage
 
