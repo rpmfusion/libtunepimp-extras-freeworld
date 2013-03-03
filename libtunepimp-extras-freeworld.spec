@@ -2,7 +2,7 @@
 Summary: Additional plugins for libtunepimp 
 Name:    libtunepimp-extras-freeworld
 Version: 0.5.3
-Release: 11%{?dist}
+Release: 12%{?dist}
 
 License: LGPLv2+
 Group: 	 System Environment/Libraries
@@ -122,6 +122,9 @@ rm -rf $RPM_BUILD_ROOT
 
 
 %changelog
+* Sun Mar 03 2013 Nicolas Chauvet <kwizart@gmail.com> - 0.5.3-12
+- Mass rebuilt for Fedora 19 Features
+
 * Wed May 02 2012 Rex Dieter <rdieter@fedoraproject.org> 0.5.3-11
 - fix for newer curl
 
